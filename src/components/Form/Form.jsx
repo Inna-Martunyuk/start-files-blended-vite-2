@@ -1,17 +1,17 @@
 import { FiSearch } from 'react-icons/fi';
-import { nanoid } from 'nanoid';
+import { useRef } from 'react';
 import style from './Form.module.css';
 
 const Form = ({ onSubmit }) => {
-  const handleSubmit = e => {
-    e.preventDefault();
-      const form = e.target;
-    const inputValue = form.elements.search.value.trim();
-  
+  const inputRef = useRef(null);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const inputValue = inputRef.current.value.trim();
 
     if (inputValue) {
-      onSubmit({id: nanoid, text: inputValue});
-      form.reset(); 
+      onSubmit(inputValue);
+      event.target.reset();
     }
   };
 
@@ -22,6 +22,7 @@ const Form = ({ onSubmit }) => {
       </button>
 
       <input
+        ref={inputRef}
         className={style.input}
         placeholder="What do you want to write?"
         name="search"
